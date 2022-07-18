@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport"
+	content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Sorting Visualizer</title>
+	<link href="index.css" rel="stylesheet" />
+</head>
+
+<body >
+<section class="head" id="Heading">Sorting Visualizer</section>
+<section class="data-container"></section>
+	<h3 id="conclusion"></h3>
+	<!-- <input id="slider" type="range" min="50" max="100" step="" oninput="sliderChange(this.value)"> -->
+
+<div class="button-menu">
+<button class="btn1" onclick="generate()" id="Button1" >
+	Generate New Array</button>
+<button class="btn2"
+		onclick="SelectionSort(),disable()" id="Button2" >
+	Selection Sort</button>
+	<button class="btn2"
+		onclick="BubbleSort(),disable()" id="Button3" >
+	Bubble Sort</button>
+	<button class="btn2"
+		onclick="InsertionSort(),disable()" id="Button4" >
+	Insertion Sort</button>
+	<button class="btn2"
+		onclick="QuickSort(),disable()" id="Button5" >
+	Quick Sort</button>
+</div>
+<div class="insertion-temp-container" id="temp-container">
+		<label id="temp-label1">Temp</label>
+		<div class="temp-bar" id="temp-barid">
+		<label id="temp-label">100</label>
+	</div>
+	</div>
+	<!-- <h2 id="code_give">Get code to implement Sorting Algorithm</h2>
+	<div class="card-container">
+	<div class="card" id="card-item1"><img src="./C_Logo.png" alt="C-language"></div>
+	<div class="card" id="card-item2"><img src="./C++-Logo.wine.png" alt="C++-language"></div>
+	<div class="card" id="card-item3"><img src="./java-logo.png" alt="Java-language"></div>
+	</div>
+	<div class="code-container"></div> -->
+</body>
+
+<script src="index.js"></script>
+</html>
