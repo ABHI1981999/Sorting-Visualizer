@@ -1,8 +1,86 @@
 const container = document.querySelector(".data-container");
+const error_box = document.getElementById("error_box");
+var num = 10;
+function sliderChange(){
+	const input1 = document.getElementById("input");
+		num = input1.value;
+		if(num>20){
+			error_box.style.display = "block";
+			error_box.innerHTML = "Error : Max Array Size is 20";
+			setTimeout(() => {
+				error_box.style.display = "none";
+			}, 5000)
+			
+			return;
+		}
+	generatebars(num);
+}
 
-function generatebars(num = 10) {
+var A;
+function onCustomInput(){
+	const input1 = document.getElementById("inputval");
+	var x = input1.value;
+	 x = x.replace(/,+/g,",");
+	A = x.split(",");
+	num = A.length;
+	for(let i=0;i<num;i++){
+		if(isNaN(A[i])){
+			error_box.style.display = "block";
+			error_box.innerHTML = "Error : Invalid Input (Input must be integer value)";
+			setTimeout(() => {
+				error_box.style.display = "none";
+			}, 5000)
+			return;
+		}
+	}
+	if(num>20){
+		error_box.style.display = "block";
+			error_box.innerHTML = "Error : Max Array Size is 20";
+			setTimeout(() => {
+				error_box.style.display = "none";
+			}, 5000)
+		return;
+	}
+	else if(num<5){
+		error_box.style.display = "block";
+			error_box.innerHTML = "Error : Min Array Size is 5";
+			setTimeout(() => {
+				error_box.style.display = "none";
+			}, 5000);
+		return;
+	}
+	
+	flag = -1;
+	generatebars(num)
+}
 
-	//for loop to generate 20 bars
+
+var flag = 0;
+var prev = num;
+function generatebars(num) {
+		if(flag!=0 ){
+		for(let i=0;i<prev;i++){
+				var parent = document.getElementsByClassName("data-container")[0];
+        		var child = parent.getElementsByClassName("bar")[0];
+        		parent.removeChild(child);
+			}
+		}
+
+		if(flag==-1){
+			for (let i = 0; i < num; i += 1) {
+				const value = A[i];
+				const bar = document.createElement("div");
+				bar.classList.add("bar");
+				bar.style.height = `${value * 3}px`;
+				bar.style.transform = `translateX(${i * 60}px)`;
+				const barLabel = document.createElement("label");
+				barLabel.classList.add("bar_id");
+				barLabel.innerHTML = value;
+				bar.appendChild(barLabel);
+				container.appendChild(bar);
+			}
+		}
+		else{
 	for (let i = 0; i < num; i += 1) {
 		const value = Math.floor(Math.random() * 100) + 1;
 		const bar = document.createElement("div");
@@ -15,6 +93,32 @@ function generatebars(num = 10) {
 		bar.appendChild(barLabel);
 		container.appendChild(bar);
 	}
+	}
+	prev = num;
+	flag = 1;
+
+
+	document.getElementById("Button1").disabled = false;
+	document.getElementById("Button2").disabled = false;
+	document.getElementById("Button3").disabled = false;
+	document.getElementById("Button4").disabled = false;
+	document.getElementById("Button5").disabled = false;
+	document.getElementById("Button6").disabled = false;
+
+	document.getElementById("Button1").style.cursor = "pointer";
+	document.getElementById("Button2").style.cursor = "pointer";
+	document.getElementById("Button3").style.cursor = "pointer";
+	document.getElementById("Button4").style.cursor = "pointer";
+	document.getElementById("Button5").style.cursor = "pointer";
+	document.getElementById("Button6").style.cursor = "pointer";
+
+	document.getElementById("Button1").style.backgroundColor = "#6f459e";
+	document.getElementById("Button2").style.backgroundColor = "#6f459e";
+	document.getElementById("Button3").style.backgroundColor = "#6f459e";
+	document.getElementById("Button4").style.backgroundColor = "#6f459e";
+	document.getElementById("Button5").style.backgroundColor = "#6f459e";
+	document.getElementById("Button6").style.backgroundColor = "#6f459e";
+
 }
 
 
@@ -23,50 +127,35 @@ async function SelectionSort() {
 	document.getElementById("Heading").innerHTML = "Selection Sort Visualizer";
 	document.getElementsByClassName('head').innerHTML = "Selection Sort Visualizer";
 	let bars = document.querySelectorAll(".bar");
-	// Assign 0 to min_idx
 	var min_idx;
 	for (var i = 0; i < bars.length; i += 1) {
-
-		// Assign i to min_idx
 		min_idx = i;
 
-		// Provide darkblue color to the ith bar
 		bars[i].style.backgroundColor = "darkblue";
 		for (var j = i + 1; j < bars.length; j += 1) {
 
-			// Provide red color to the jth bar
 			bars[j].style.backgroundColor = "red";
-
-			// To pause the execution of code for 300 milliseconds
 			await new Promise((resolve) =>
 				setTimeout(() => {
 					resolve();
 				}, 300)
 			);
-
-			// To store the integer value of jth bar to var1
 			var val1 = parseInt(bars[j].childNodes[0].innerHTML);
 
-			// To store the integer value of (min_idx)th bar to var2
 			var val2 = parseInt(bars[min_idx].childNodes[0].innerHTML);
 
-
-			// Compare val1 & val2
 			if (val1 < val2) {
 				if (min_idx !== i) {
 
-					// Provide skyblue color to the (min-idx)th bar
 					bars[min_idx].style.backgroundColor = " rgb(24, 190, 255)";
 				}
 				min_idx = j;
 			} else {
 
-				// Provide skyblue color to the jth bar
 				bars[j].style.backgroundColor = " rgb(24, 190, 255)";
 			}
 		}
 
-		// To swap ith and (min_idx)th bar
 		var temp1 = bars[min_idx].style.height;
 		var temp2 = bars[min_idx].childNodes[0].innerText;
 		bars[min_idx].style.height = bars[i].style.height;
@@ -74,34 +163,24 @@ async function SelectionSort() {
 		bars[min_idx].childNodes[0].innerText = bars[i].childNodes[0].innerText;
 		bars[i].childNodes[0].innerText = temp2;
 
-		// To pause the execution of code for 300 milliseconds
 		await new Promise((resolve) =>
 			setTimeout(() => {
 				resolve();
 			}, 300)
 		);
 
-		// Provide skyblue color to the (min-idx)th bar
 		bars[min_idx].style.backgroundColor = " rgb(24, 190, 255)";
 
-		// Provide lightgreen color to the ith bar
 		bars[i].style.backgroundColor = " rgb(49, 226, 13)";
 	}
 	setTimeout(() => {
 		document.getElementById("conclusion").innerHTML = "Array has been Sorted Using  Selection Sort Algorithm ";
 	}, 300)
 
-	// To enable the button "Generate New Array" after final(sorted)
 	document.getElementById("Button1").disabled = false;
 	document.getElementById("Button1").style.backgroundColor = "#6f459e";
 	document.getElementById("Button1").style.cursor = "pointer";
-	// document.getElementById("Button2").style.cursor = "pointer";
-	// document.getElementById("Button3").style.cursor = "pointer";
-	// To enable the button "Selection Sort" after final(sorted)
-	// document.getElementById("Button2").disabled = false;
-	// document.getElementById("Button2").style.backgroundColor = "#6f459e";
-	// document.getElementById("Button3").disabled = false;
-	// document.getElementById("Button3").style.backgroundColor = "#6f459e";
+
 }
 
 async function BubbleSort() {
@@ -164,13 +243,6 @@ async function BubbleSort() {
 	document.getElementById("Button1").disabled = false;
 	document.getElementById("Button1").style.backgroundColor = "#6f459e";
 	document.getElementById("Button1").style.cursor = "pointer";
-	// document.getElementById("Button2").style.cursor = "pointer";
-	// document.getElementById("Button3").style.cursor = "pointer";
-
-	// document.getElementById("Button2").disabled = false;
-	// document.getElementById("Button2").style.backgroundColor = "#6f459e";
-	// document.getElementById("Button3").disabled = false;
-	// document.getElementById("Button3").style.backgroundColor = "#6f459e";
 }
 
 
@@ -249,19 +321,15 @@ async function InsertionSort() {
 }
 
 
-
-
-
-
 let loc;
-async function partition( bars, lb1, ub1) {
+async function partition(bars, lb1, ub1) {
 	let pivot = parseInt(bars[lb1].childNodes[0].innerHTML);
 	let start = lb1;
 	let end = ub1;
 	bars[start].style.backgroundColor = "darkblue";
 	await new Promise((resolve, reject) => {
 		setTimeout(() => {
-		  resolve();
+			resolve();
 		}, 300)
 	})
 	while (start < end) {
@@ -269,10 +337,13 @@ async function partition( bars, lb1, ub1) {
 			bars[start].style.backgroundColor = "red";
 			await new Promise((resolve, reject) => {
 				setTimeout(() => {
-				  resolve();
+					resolve();
 				}, 300)
-				
+
 			})
+			if (parseInt(bars[start + 1].childNodes[0].innerHTML) <= pivot) {
+				bars[start].style.backgroundColor = "rgb(0, 183, 255)";
+			}
 			start++;
 		}
 		bars[end].style.backgroundColor = "red";
@@ -280,16 +351,18 @@ async function partition( bars, lb1, ub1) {
 			bars[end].style.backgroundColor = "yellow";
 			await new Promise((resolve, reject) => {
 				setTimeout(() => {
-				  resolve();
-				}, 300)})
-				bars[end].style.backgroundColor = "rgb(0, 183, 255)";
+					resolve();
+				}, 300)
+			})
+			bars[end].style.backgroundColor = "rgb(0, 183, 255)";
 			end--;
 		}
 		if (start < end) {
 			await new Promise((resolve, reject) => {
 				setTimeout(() => {
-				  resolve();
-				}, 300)})
+					resolve();
+				}, 300)
+			})
 			let temph = bars[start].style.height;
 			let tempv = parseInt(bars[start].childNodes[0].innerHTML);
 			bars[start].style.height = bars[end].style.height;
@@ -301,8 +374,9 @@ async function partition( bars, lb1, ub1) {
 	}
 	await new Promise((resolve, reject) => {
 		setTimeout(() => {
-		  resolve();
-		}, 300)})
+			resolve();
+		}, 300)
+	})
 	let temph = bars[end].style.height;
 	let tempv = parseInt(bars[end].childNodes[0].innerHTML);
 	bars[end].style.height = bars[lb1].style.height;
@@ -317,20 +391,12 @@ async function partition( bars, lb1, ub1) {
 async function quickalgo(bars, lb2, ub2) {
 	if (lb2 < ub2) {
 		await new Promise((resolve) => {
-				resolve(partition(bars, lb2, ub2));
-			})
-		
-		// await new Promise((resolve) => {
-		// 	setTimeout(() => {
-		// 	  resolve(quickalgo(bars, lb2, loc - 1));
-		// 	}, 300)
-			
-		// })
+			resolve(partition(bars, lb2, ub2));
+		})
 
-		await Promise.all([quickalgo(bars, lb2, loc - 1),quickalgo(bars, loc + 1, ub2)])
-		// quickalgo(bars, loc + 1, ub2);
+		await Promise.all([quickalgo(bars, lb2, loc - 1), quickalgo(bars, loc + 1, ub2)])
 	}
-	return ;
+	return;
 }
 
 async function QuickSort() {
@@ -339,18 +405,18 @@ async function QuickSort() {
 	let bars = document.querySelectorAll(".bar");
 	let bar_label = document.querySelectorAll(".bar_id");
 	let lb = 0;
-	let f=0;
+	let f = 0;
 	let ub = (bars.length - 1);
-	
+
 	await new Promise((resolve, reject) => {
-			resolve(quickalgo(bars, lb, ub));
+		resolve(quickalgo(bars, lb, ub));
 	})
 	setTimeout(() => {
 		document.getElementById("Button1").disabled = false;
 		document.getElementById("Button1").style.cursor = "pointer";
 		document.getElementById("Button1").style.backgroundColor = "#6f459e";
 
-		for(let i=0;i<bars.length;i++){
+		for (let i = 0; i < bars.length; i++) {
 			bars[i].style.backgroundColor = "green";
 		}
 		document.getElementById("conclusion").innerHTML = "Array has been Sorted Using Quick Sort Algorithm ";
@@ -360,12 +426,235 @@ async function QuickSort() {
 
 
 
+async function sortmaxheap(bars, n) {
+	if (n <= 1) {
+		await new Promise((resolve, reject) => {
+			setTimeout(() => {
+				resolve(bars[n - 1].style.backgroundColor = "green");
+			}, 300)
+
+		})
+		return;
+	}
+	await new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve(bars[0].style.backgroundColor = "darkblue");
+			resolve(bars[n - 1].style.backgroundColor = "red");
+		}, 300)
+
+	})
+	let temph = bars[0].style.height;
+	let tempv = parseInt(bars[0].childNodes[0].innerHTML);
+	bars[0].childNodes[0].innerHTML = parseInt(bars[n - 1].childNodes[0].innerHTML);
+	bars[0].style.height = bars[n - 1].style.height;
+	bars[n - 1].childNodes[0].innerHTML = tempv;
+	bars[n - 1].style.height = temph;
+	await new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve(bars[0].style.backgroundColor = "rgb(0, 183, 255)");
+			resolve(bars[n - 1].style.backgroundColor = "green");
+		}, 300)
+
+	})
+	let j = 1;
+
+	while ((2 * j) < n) {
+		var flag = 0;
+		var child1 = 2 * j;
+		var child2 = child1 + 1;
+
+		if (child2 == n) {
+			if (parseInt(bars[j - 1].childNodes[0].innerHTML) < parseInt(bars[child1 - 1].childNodes[0].innerHTML)) {
+				await new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve(bars[j - 1].style.backgroundColor = "darkblue");
+						resolve(bars[child1 - 1].style.backgroundColor = "red");
+					}, 300)
+
+				})
+				await new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve();
+					}, 300)
+
+				})
+				let tempv = parseInt(bars[j - 1].childNodes[0].innerHTML);
+				let temph = bars[j - 1].style.height;
+				bars[j - 1].childNodes[0].innerHTML = parseInt(bars[child1 - 1].childNodes[0].innerHTML);
+				bars[j - 1].style.height = bars[child1 - 1].style.height;
+				bars[child1 - 1].childNodes[0].innerHTML = tempv;
+				bars[child1 - 1].style.height = temph;
+				j = child1;
+				flag = 1;
+			}
+		}
+		else {
+
+			if ((parseInt(bars[child1 - 1].childNodes[0].innerHTML) > parseInt(bars[child2 - 1].childNodes[0].innerHTML)) && (parseInt(bars[j - 1].childNodes[0].innerHTML) < parseInt(bars[child1 - 1].childNodes[0].innerHTML))) {
+				await new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve(bars[j - 1].style.backgroundColor = "darkblue");
+						resolve(bars[child2 - 1].style.backgroundColor = "yellow");
+						resolve(bars[child1 - 1].style.backgroundColor = "red");
+					}, 300)
+
+				})
+				await new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve();
+					}, 300)
+
+				})
+				let tempv = parseInt(bars[j - 1].childNodes[0].innerHTML);
+				let temph = bars[j - 1].style.height;
+				bars[j - 1].childNodes[0].innerHTML = parseInt(bars[child1 - 1].childNodes[0].innerHTML);
+				bars[j - 1].style.height = bars[child1 - 1].style.height;
+				bars[child1 - 1].childNodes[0].innerHTML = tempv;
+				bars[child1 - 1].style.height = temph;
+				await new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve(bars[j - 1].style.backgroundColor = "rgb(0, 183, 255)");
+						resolve(bars[child2 - 1].style.backgroundColor = "rgb(0, 183, 255)");
+						resolve(bars[child1 - 1].style.backgroundColor = "rgb(0, 183, 255)");
+					}, 300)
+
+				})
+				j = child1;
+				flag = 1;
+			}
+			else if (parseInt(bars[child1 - 1].childNodes[0].innerHTML) <= parseInt(bars[child2 - 1].childNodes[0].innerHTML) && parseInt(bars[j - 1].childNodes[0].innerHTML) < parseInt(bars[child2 - 1].childNodes[0].innerHTML)) {
+				await new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve(bars[j - 1].style.backgroundColor = "darkblue");
+						resolve(bars[child1 - 1].style.backgroundColor = "yellow");
+						resolve(bars[child2 - 1].style.backgroundColor = "red");
+					}, 300)
+
+				})
+				await new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve();
+					}, 300)
+
+				})
+				let tempv = parseInt(bars[j - 1].childNodes[0].innerHTML);
+				let temph = bars[j - 1].style.height;
+				bars[j - 1].childNodes[0].innerHTML = parseInt(bars[child2 - 1].childNodes[0].innerHTML);
+				bars[j - 1].style.height = bars[child2 - 1].style.height;
+				bars[child2 - 1].childNodes[0].innerHTML = tempv;
+				bars[child2 - 1].style.height = temph;
+				await new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve(bars[j - 1].style.backgroundColor = "rgb(0, 183, 255)");
+						resolve(bars[child1 - 1].style.backgroundColor = "rgb(0, 183, 255)");
+						resolve(bars[child2 - 1].style.backgroundColor = "rgb(0, 183, 255)");
+					}, 300)
+
+				})
+				j = child2;
+				flag = 1;
+			}
+
+		}
+		if (flag == 0) {
+			return;
+		}
+	}
+	return;
+}
 
 
-generatebars();
+async function heapSort() {
+	document.title = "Heap Sort Visualizer";
+	document.getElementById("Heading").innerHTML = "Heap Sort Visualizer";
+	let bars = document.querySelectorAll(".bar");
+	let bar_label = document.querySelectorAll(".bar_id");
+
+	for (var i = 2; i <= num; i++) {
+		var insertdata = parseInt(bars[i - 1].childNodes[0].innerHTML);
+		var parentIndex = Math.floor(i / 2);
+		var j = i;
+		while (j > 1) {
+			await new Promise((resolve, reject) => {
+				setTimeout(() => {
+					resolve(bars[j - 1].style.backgroundColor = "red")
+				}, 300)
+
+			})
+			parentIndex = Math.floor(j / 2);
+			await new Promise((resolve, reject) => {
+				setTimeout(() => {
+					resolve(bars[parentIndex - 1].style.backgroundColor = "darkblue")
+				}, 300)
+			})
+			await new Promise((resolve, reject) => {
+				setTimeout(() => {
+					resolve()
+				}, 300)
+			})
+
+			if (parseInt(bars[parentIndex - 1].childNodes[0].innerHTML) < insertdata) {
+				await new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve();
+					}, 300)
+				})
+				var tempv = parseInt(bars[parentIndex - 1].childNodes[0].innerHTML);
+				var temph = bars[parentIndex - 1].style.height;
+				bars[parentIndex - 1].childNodes[0].innerHTML = insertdata;
+				bars[parentIndex - 1].style.height = bars[j - 1].style.height;
+				bars[j - 1].childNodes[0].innerHTML = tempv;
+				bars[j - 1].style.height = temph;
+				await new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve(bars[parentIndex - 1].style.backgroundColor = "rgb(0, 183, 255)");
+						resolve(bars[j - 1].style.backgroundColor = "rgb(0, 183, 255)");
+					}, 300)
+				})
+				j = parentIndex;
+			}
+			else {
+				await new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve(bars[parentIndex - 1].style.backgroundColor = "rgb(0, 183, 255)");
+						resolve(bars[j - 1].style.backgroundColor = "rgb(0, 183, 255)");
+					}, 300)
+				})
+				j = 1;
+			}
+			await new Promise((resolve, reject) => {
+				setTimeout(() => {
+					resolve(bars[parentIndex].style.backgroundColor = "rgb(0, 183, 255)");
+					resolve(bars[j - 1].style.backgroundColor = "rgb(0, 183, 255)");
+				}, 300)
+			})
+		}
+
+	}
+	for (let i = num; i > 0; i--) {
+		await new Promise((resolve, reject) => {
+			resolve(sortmaxheap(bars, i))
+		})
+	}
+
+	document.getElementById("Button1").disabled = false;
+	document.getElementById("Button1").style.backgroundColor = "#6f459e";
+	document.getElementById("Button1").style.cursor = "pointer";
+	document.getElementById("conclusion").innerHTML = "Array has been Sorted Using Heap Sort Algorithm ";
+
+}
+
+
+
+
+
+generatebars(num);
 
 function generate() {
-	window.location.reload();
+	// window.location.reload();
+	generatebars(num);
+
+	
 }
 
 function disable() {
@@ -374,16 +663,19 @@ function disable() {
 	document.getElementById("Button3").disabled = true;
 	document.getElementById("Button4").disabled = true;
 	document.getElementById("Button5").disabled = true;
+	document.getElementById("Button6").disabled = true;
 
 	document.getElementById("Button1").style.cursor = "not-allowed";
 	document.getElementById("Button2").style.cursor = "not-allowed";
 	document.getElementById("Button3").style.cursor = "not-allowed";
 	document.getElementById("Button4").style.cursor = "not-allowed";
 	document.getElementById("Button5").style.cursor = "not-allowed";
+	document.getElementById("Button6").style.cursor = "not-allowed";
 
 	document.getElementById("Button1").style.backgroundColor = "#d8b6ff";
 	document.getElementById("Button2").style.backgroundColor = "#d8b6ff";
 	document.getElementById("Button3").style.backgroundColor = "#d8b6ff";
 	document.getElementById("Button4").style.backgroundColor = "#d8b6ff";
 	document.getElementById("Button5").style.backgroundColor = "#d8b6ff";
+	document.getElementById("Button6").style.backgroundColor = "#d8b6ff";
 }
